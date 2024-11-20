@@ -1,4 +1,4 @@
-name: w1_hello
+name: rw01_hello
 on:
   workflow_call
 jobs:   
