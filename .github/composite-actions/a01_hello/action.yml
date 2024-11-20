@@ -1,0 +1,8 @@
+name: a01_hello action
+description: Just say hello
+runs:
+  using: "composite"
+  steps:
+    - name: say hello
+      shell: bash # we have to set shell explicitly in a composite action
+      run: echo hello
