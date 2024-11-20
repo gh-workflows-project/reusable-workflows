@@ -1,0 +1,10 @@
+name: w1_hello
+on:
+  workflow_call
+jobs:   
+  job1:
+    name: test job
+    runs-on: ubuntu-latest
+    steps:
+      - name: say hello
+        run: echo 'hello'
