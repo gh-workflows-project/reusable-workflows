@@ -4,21 +4,21 @@ on:
 env:
   # vars defined here are availble to all jobs, however, value updates will be available only 
   # within the job where they are updated
-  globalvar: global_value
+  globalvar: globalvar_value
 jobs:
   job1:
     name: j1 test env vars inside a job
     runs-on: ubuntu-latest
     env: 
-      jobvar: this_is_jobvar
+      jobvar: jobvar_value
     steps:
       - name: test env variables
         env: 
-          stepvar: this_is_stepvar
+          stepvar: stepvar_value
         run: |
          # inside a run, access env vars with or without env context
-          echo $stepvar  
-          echo ${{ env.stepvar }}
+          echo $stepvar $jobvar $globalvar 
+          echo ${{ env.stepvar }} ${{ env.jobvar }} ${{ env.globalvar }}
       - name: update env variables
       # these updates will be available only within the current job as we are saving in GITHUB_ENV
       # do not give any spaces across equal sign below
@@ -32,22 +32,16 @@ jobs:
        # if: ${{$stepvar == stepvar_new}} #     this will not work either
         run: |
           # inside a run we can access vars with or without env context
-          echo $stepvar
-          echo ${{ env.stepvar }}
-          echo $globalvar
-          echo ${{env.globalvar}}    
+          echo $stepvar $jobvar $globalvar 
+          echo ${{ env.stepvar }} ${{ env.jobvar }} ${{ env.globalvar }}   
   job2:
     name: j2 show env vars behaviour across jobs
     runs-on: ubuntu-latest
     steps:
       - name: test env variables
         run: |
-          # the following are not available acrosss jobs
-          echo $stepvar
-          echo ${{env.stepvar}} 
-          echo $jobvar
-          echo ${{env.jobvar}} 
-          # global variable is available but the update done in another job will not affect it
-          echo $globalvar
-          echo ${{env.globalvar}}
+          # stepvar and jobvar are not available acrosss jobs because each job executes in a clean environment
+          # global variable is available but the update done in another job will not affect it.
+          echo $stepvar $jobvar $globalvar 
+          echo ${{ env.stepvar }} ${{ env.jobvar }} ${{ env.globalvar }} 
           echo done with reusable workflow       
