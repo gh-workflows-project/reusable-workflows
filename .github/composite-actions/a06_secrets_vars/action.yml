@@ -1,4 +1,4 @@
-name: Demo of using secrets and variables in a composite action
+name: a06_secrets_vars using secrets and variables in a composite action
 description: For composite actions we have to pass secrets and vars as input from the caller, unlike a reusable workflow where secrets are passed as secrets
 inputs:
   repo_s:
@@ -16,14 +16,11 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: print secrets that were passed as input
+    - name: print secrets and vars that were passed as input
       shell: bash
       run: |
         echo ${{ inputs.repo_s }} | sed 's/./& /g' # sed command unmasks the secrets, use only for dummy secrets and demos.
         echo ${{ inputs.org_s }} | sed 's/./& /g'
-    - name: print repo and org vars
-      shell: bash
-      run: |
         echo ${{ inputs.repo_v }}
         echo ${{ inputs.org_v }}
         echo done with action
