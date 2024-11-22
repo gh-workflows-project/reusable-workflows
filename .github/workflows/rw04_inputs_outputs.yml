@@ -24,9 +24,9 @@ jobs:
       output2: ${{ steps.step2.outputs.output2 }}
     steps:
       - id: step1
-        run: echo "output1=${{inputs.input1}}" >> $GITHUB_OUTPUT
+        run: echo "output1=output base on ${{inputs.input1}}" >> $GITHUB_OUTPUT
       - id: step2
-        run: echo "output2=${{inputs.input2}}" >> $GITHUB_OUTPUT
+        run: echo "output2=output based on ${{inputs.input2}}" >> $GITHUB_OUTPUT
   print_to_console: # just verify inputs and outputs
    name: print inputs and ouputs
    runs-on: ubuntu-latest
