@@ -1,4 +1,4 @@
-name: a01_hello action
+name: a02_hello action
 description: Just say hello
 runs:
   using: "composite"
