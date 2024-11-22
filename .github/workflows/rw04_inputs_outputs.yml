@@ -1,16 +1,19 @@
-name: Demo of using inputs and outputs in a reusable workflow
+name: rw04_inputs_outputs a reusable workflow with inputs and outputs 
 on:
   workflow_call:
     inputs:
       input1:
         required: true  # if 'required' is 'false', set a default value using default: somevalue
+        type: string 
+      input2:
+        required: true  # if 'required' is 'false', set a default value using default: somevalue
         type: string
     outputs:
-      firstword:
-        description: "The first output string"
+      an_output:
+        description: "An output"
         value: ${{ jobs.set_outputs.outputs.output1 }}
-      secondword:
-        description: "The second output string"
+      another_output:
+        description: "Another output"
         value: ${{ jobs.set_outputs.outputs.output2 }}
 jobs:
   set_outputs:
@@ -21,15 +24,14 @@ jobs:
       output2: ${{ steps.step2.outputs.output2 }}
     steps:
       - id: step1
-        run: echo "output1=hello" >> $GITHUB_OUTPUT
+        run: echo "output1=${{inputs.input1}}" >> $GITHUB_OUTPUT
       - id: step2
-        run: echo "output2=world" >> $GITHUB_OUTPUT 
-
-  print_to_console:
+        run: echo "output2=${{inputs.input2}}" >> $GITHUB_OUTPUT
+  print_to_console: # just verify inputs and outputs
    name: print inputs and ouputs
    runs-on: ubuntu-latest
    needs: [set_outputs]
    steps:
-    - run: echo ${{ inputs.input1 }}
+    - run: echo '${{ toJSON(inputs) }}'
     - run: echo '${{ toJSON(needs.set_outputs.outputs) }}'
     - run: echo done with reusable workflow
