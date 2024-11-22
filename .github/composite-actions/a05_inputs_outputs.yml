@@ -1,0 +1,30 @@
+name:  a05_inputs_outputs using inputs and outputs in a composite action
+description: 'use input, give output'
+inputs:
+  input1:
+    required: true  # if 'required' is 'false', set a default value using default: somevalue
+    type: string
+outputs:
+  an_output:
+    description: "an output"
+    value: ${{ steps.step1.outputs.output1 }}
+  another_output:
+    description: "another output"
+    value: ${{ steps.step1.outputs.output2 }}
+runs:
+  using: "composite"
+  steps:
+    - name: set outputs
+      shell: bash
+      id: step1
+      run: |
+        echo "output1=i am an out" >> $GITHUB_OUTPUT
+        echo "output2=i am another output" >> $GITHUB_OUTPUT
+      
+    - name: use output from previous step 
+      shell: bash
+      id: step2
+      run: |
+        echo ${{ inputs.input1 }}
+        echo ${{steps.step1.outputs.output1}}
+        echo done with action
