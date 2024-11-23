@@ -30,8 +30,10 @@ runs:
       with:
         python-version: '3.x'
     - name: run a python script
+      shell: bash
       run: python ${{github.action_path}}/../../${{inputs.py_script}}
     - name: run a js script
+      shell: bash
       uses: actions/github-script@v7
       with:
         script: |
