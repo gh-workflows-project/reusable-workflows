@@ -41,7 +41,7 @@ jobs:
         with:
           script: |
             try {
-              const exec = require('${{ github.repository }}/${{inputs.js_script}}')
+              const exec = require('${{ github.workspace }}/${{inputs.js_script}}')
               exec()          
               return "success"
             } catch(err) {
