@@ -41,6 +41,14 @@ jobs:
         with:
       # comment the following to get json output result
       # result-encoding: string
-          script: ${{ github.workspace }}/${{inputs.js_script}}()
+          script: |
+            try {
+              const exec = require('${{ github.workspace }}/${{inputs.js_script}}')
+              exec()          
+              return "success"
+            } catch(err) {
+              core.error("Error json data")
+              core.setFailed(err)
+            }
             
         
