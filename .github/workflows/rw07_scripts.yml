@@ -1,0 +1,22 @@
+name: rw07 run scripts 
+on:
+  workflow_call:
+    inputs:
+      bash_script:
+        required: true 
+        type: string  
+      py_script:
+        required: true 
+        type: string
+      js_script:
+        required: true 
+        type: string  
+jobs:
+  job1:
+    name: run scripts
+    runs-on: ubuntu-latest
+    steps:
+      - name: run scripts
+        run: |
+          ${{ github.workspace }}/${{inputs.bash_script}}
+          echo reusable workflow done
