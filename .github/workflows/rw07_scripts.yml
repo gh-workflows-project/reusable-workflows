@@ -16,6 +16,14 @@ jobs:
     name: run scripts
     runs-on: ubuntu-latest
     steps:
+      - name: checkout file
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            ${{inputs.bash_script}}
+      # cone mode false means will checkout only the file/files mentioned in the path
+      # default is true which checks out repository root level files unnecessarily for our case
+          sparse-checkout-cone-mode: false 
       - name: run scripts
         run: |
           ${{ github.workspace }}/${{inputs.bash_script}}
