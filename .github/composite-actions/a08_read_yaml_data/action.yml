@@ -1,11 +1,11 @@
-name: demo read yaml
+name: a08_read_yaml_data demo
 description: Demo showing how to read a yaml file attached to root-caller-workflow repo using two methods
-# 1. directly in shell using jq
-# 2. in javascript using another action
-# example caller workflow .github/workflows/read_json_file.yml
+# 1. directly in shell using yq
+# 2. using javascript actions/github-script
+
 inputs:
   file_path:
-    required: true  # if 'required' is 'false', set a default value using default: somevalue
+    required: true 
     type: string
 outputs:
   data:
@@ -19,21 +19,12 @@ runs:
       with:
         sparse-checkout: |
           ${{inputs.file_path}}
-      # cone mode false means will checkout only the file/files mentioned in the path
-      # default is true which checks out repository root level files unnecessarily for our case
-        sparse-checkout-cone-mode: false 
-    - name: see what files were checked out
-      shell: bash
-      run: |
-        ls -al $GITHUB_WORKSPACE
-        ls -al $GITHUB_WORKSPACE/.github
-        ls -al $GITHUB_WORKSPACE/.github/test-files   
+        sparse-checkout-cone-mode: false  
     - name: read json directly in shell
       shell: bash
       run: |
         myvar=$(yq '.level0.level1.level2.level3.level4.list[0]' ${{ github.workspace }}/${{inputs.file_path}})
         echo $myvar
-    #   myvar=$(jq '.level0.level1.level2.level3' ${{ github.workspace }}/${{inputs.file_path}})
     - name: install js-yaml
       shell: bash
       run: npm install js-yaml
