@@ -1,4 +1,4 @@
-name: rw07 run scripts 
+name: rw07_scripts run scripts 
 on:
   workflow_call:
     inputs:
