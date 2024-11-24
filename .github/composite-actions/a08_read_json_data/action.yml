@@ -1,7 +1,7 @@
 name: a08_read_json_data demo 
-description: Demo showing how to read a json file attached to caller workflow repo using two methods
+description: Demo showing how to read a json file located in the caller workflow repo using two methods
 # 1. directly in shell using jq
-# 2. in javascript using another action
+# 2. using javascript action: actions/github-script
 
 inputs:
   file_path:
@@ -10,7 +10,7 @@ inputs:
 outputs:
   data:
     description: "json data"
-    value: ${{ steps.read_json.outputs.result }} 
+    value: ${{ steps.read_file.outputs.result }} 
 runs:
   using: "composite"
   steps:
@@ -29,10 +29,8 @@ runs:
        echo $myvar | jq '.'
     - name: call the javascript action to read a json file
       uses: actions/github-script@v7
-      id: read_json
+      id: read_file
       with:
-      # comment the following to get json output result
-      # result-encoding: string
         script: |
           try {
             const fs = require('fs')
